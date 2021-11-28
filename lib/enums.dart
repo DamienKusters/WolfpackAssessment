@@ -1,4 +1,4 @@
 enum PagesEnum
 {
-  SCHEDULE,
+  SCHEDULE,OVERVIEW,
 }

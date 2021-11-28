@@ -1,10 +1,12 @@
 import 'package:flutter/material.dart';
 import 'package:wolfpack_assessment/models/moment.dart';
+import 'package:wolfpack_assessment/services/moment_service.dart';
 import 'package:wolfpack_assessment/widgets/medicine_button.dart';
 
 class MomentButton extends StatefulWidget {
+  final MomentService momentService;
   final MomentModel moment;
-  const MomentButton({ Key? key, required this.moment }) : super(key: key);
+  const MomentButton({ Key? key, required this.moment, required this.momentService }) : super(key: key);
 
   @override
   _MomentButtonState createState() => _MomentButtonState();
@@ -54,7 +56,7 @@ class _MomentButtonState extends State<MomentButton> {
                   SizedBox(
                     height: 30,
                     width: 50,
-                    child: moment.medicines.every((m) => m.taken == true) ? expandendImage : collapsedImage
+                    child: moment.isComplete() ? expandendImage : collapsedImage
                   ),
                 ],
               ),
@@ -70,8 +72,14 @@ class _MomentButtonState extends State<MomentButton> {
   {
     List<Widget> output = [];
     for (var medicine in moment.medicines) {
-      output.add(MedicineButton(medicine: medicine, updateParent: () => setState(() {}),));
+      output.add(MedicineButton(medicine: medicine, updateParent: () => _saveMoment(),));
     }
     return Column(children: output,);
+  }
+
+  void _saveMoment()
+  {
+    setState(() {});
+    widget.momentService.saveMoment(moment);
   }
 }

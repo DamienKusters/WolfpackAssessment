@@ -4,7 +4,8 @@ import 'package:wolfpack_assessment/services/moment_service.dart';
 import 'package:wolfpack_assessment/widgets/moment_button.dart';
 
 class SchedulePage extends StatefulWidget {
-  const SchedulePage({ Key? key }) : super(key: key);
+  final MomentService momentService;
+  const SchedulePage({ Key? key, required this.momentService }) : super(key: key);
 
   @override
   _SchedulePageState createState() => _SchedulePageState();
@@ -16,7 +17,7 @@ class _SchedulePageState extends State<SchedulePage> {
   @override
   void initState() {
     super.initState();
-    moments = MomentService().getMoments();
+    moments = widget.momentService.getMoments();
   }
 
   @override
@@ -44,12 +45,12 @@ class _SchedulePageState extends State<SchedulePage> {
             padding: const EdgeInsets.symmetric(horizontal: 20, vertical: 8),
             child: Text("${moment.date.day}-${moment.date.month}-${moment.date.year}"),
           ),
-          MomentButton(moment: moment),
+          MomentButton(moment: moment, momentService: widget.momentService,),
         ]);
       }
       else
       {
-        output.add(MomentButton(moment: moment));
+        output.add(MomentButton(moment: moment, momentService: widget.momentService,));
       }
 
       lastDate = moment.date;
