@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
-import 'package:wolfpack_assessment/models/medicine.dart';
 import 'package:wolfpack_assessment/models/moment.dart';
+import 'package:wolfpack_assessment/services/moment_service.dart';
 import 'package:wolfpack_assessment/widgets/moment_button.dart';
 
 class SchedulePage extends StatefulWidget {
@@ -11,19 +11,21 @@ class SchedulePage extends StatefulWidget {
 }
 
 class _SchedulePageState extends State<SchedulePage> {
-  List<MomentModel> moments = [
-    MomentModel("Op 't werk", Image.asset("assets/business_center.png", color: Colors.white), DateTime.utc(2021,8,5,14,20),[MedicineModel("test")]),
-    MomentModel("Lunch", Image.asset("assets/free_breakfast.png", color: Colors.white), DateTime.utc(2021,8,4,11,45),[MedicineModel("test")]),
-    MomentModel("Half 4", Image.asset("assets/alarm.png", color: Colors.white), DateTime.utc(2021,8,6,15,30),[MedicineModel("test")]),
-    MomentModel("Tijdens de klas", Image.asset("assets/class.png", color: Colors.white), DateTime.utc(2021,8,10,20,00),[MedicineModel("test")]),
-    MomentModel("Thuis", Image.asset("assets/home.png", color: Colors.white), DateTime.utc(2021,8,4,12,00),[MedicineModel("test")]),
-    MomentModel("Thuis", Image.asset("assets/home.png", color: Colors.white), DateTime.utc(2021,8,6,18,50),[MedicineModel("test")]),
-  ];
+  late List<MomentModel> moments;
+
+  @override
+  void initState() {
+    super.initState();
+    moments = MomentService().getMoments();
+  }
 
   @override
   Widget build(BuildContext context) {
-    return ListView(
-      children: _renderMoments(),
+    return Ink(
+      color: Colors.black12,
+      child: ListView(
+        children: _renderMoments(),
+      ),
     );
   }
 

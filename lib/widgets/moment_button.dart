@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:wolfpack_assessment/models/moment.dart';
+import 'package:wolfpack_assessment/widgets/medicine_button.dart';
 
 class MomentButton extends StatefulWidget {
   final MomentModel moment;
@@ -53,14 +54,24 @@ class _MomentButtonState extends State<MomentButton> {
                   SizedBox(
                     height: 30,
                     width: 50,
-                    child: moment.isExpanded ? expandendImage : collapsedImage //moment.medicines.every((m) => m.taken == true) ? expandendImage : collapsedImage
+                    child: moment.medicines.every((m) => m.taken == true) ? expandendImage : collapsedImage
                   ),
                 ],
               ),
             ),
           ),
+          !moment.isExpanded ? Container() : _renderMedicines(),
         ],
       ),
     );
+  }
+
+  Widget _renderMedicines()
+  {
+    List<Widget> output = [];
+    for (var medicine in moment.medicines) {
+      output.add(MedicineButton(medicine: medicine, updateParent: () => setState(() {}),));
+    }
+    return Column(children: output,);
   }
 }
